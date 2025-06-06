@@ -1,14 +1,16 @@
-<img src="https://img.shields.io/badge/HTML-black?style=for-the-badge&logo=HTML5&logoColor=E34F26"/>
-<img src="https://img.shields.io/badge/JAVASCRIPT-black?style=for-the-badge&logo=JavaScript&logoColor=F7DF1E"/>
-<img src="https://img.shields.io/badge/CSS3-black?style=for-the-badge&logo=CSS3&logoColor=1572B6"/>
-<img src="https://img.shields.io/badge/tailwind-black?style=for-the-badge&logo=tailwindcss&logoColor=61DAFB"/>
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML-black?style=for-the-badge&logo=HTML5&logoColor=E34F26"/>
+  <img src="https://img.shields.io/badge/JAVASCRIPT-black?style=for-the-badge&logo=JavaScript&logoColor=F7DF1E"/>
+  <img src="https://img.shields.io/badge/CSS3-black?style=for-the-badge&logo=CSS3&logoColor=1572B6"/>
+  <img src="https://img.shields.io/badge/tailwind-black?style=for-the-badge&logo=tailwindcss&logoColor=61DAFB"/>
+</p>
 
 
 # Weather App
 
 A modern, client-side weather application built with vanilla JavaScript that displays current weather conditions and forecasts using the OpenWeatherMap API.
 
-
+<img src="./weather.png" alt="Current Weather"/>
 
 ## Features
 
@@ -20,6 +22,9 @@ A modern, client-side weather application built with vanilla JavaScript that dis
 - **Single Page Application**: Smooth navigation with custom client-side routing
 - **Responsive Design**: Works on desktop and mobile devices
 - **404 Error Handling**: Graceful handling of invalid routes
+
+<img src="./forecast.png" alt="Forecast"/>
+
 
 ## Project Structure
 
