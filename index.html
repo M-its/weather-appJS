@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <link rel="icon" type="image/x-icon" href="src/assets/weather-forecast.png">
+    <link rel="stylesheet" href="./src/output.css">
+    <link id="page-css" rel="stylesheet" type="text/css" href="">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+        integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body class="bg-slate-950 flex flex-col items-center justify-center h-screen font-sans">
+    <div class="container max-w-screen-sm bg-slate-900 text-slate-200 p-8 rounded-md">
+        <header class="flex min-[430px]:flex-row gap-4 flex-col justify-between items-center mb-8">
+            <form class="text-slate-900 relative">
+                <input class="rounded-md pl-10 py-1 bg-slate-800 text-slate-100 weather_search" type="text"
+                    placeholder="Pesquise a cidade...">
+                <button type="submit"><i
+                        class="fa-solid fa-magnifying-glass absolute left-[10px] top-[8px]"></i></button>
+            </form>
+            <div>
+                <span
+                    class="py-1 px-2 bg-slate-700 hover:bg-slate-700 rounded-md cursor-pointer duration-200 weather_celcius">&#176C</span>
+                <span
+                    class="py-1 px-2 bg-slate-800 hover:bg-slate-700 rounded-md cursor-pointer duration-200 weather_farenheit">&#176F</span>
+            </div>
+        </header>
+
+        <div id="app">
+        </div>
+    </div>
+
+    <script src="/src/js/index.js" type="module"></script>
+</body>
+
+</html>

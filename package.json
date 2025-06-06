@@ -1,0 +1,21 @@
+{
+    "name": "wheather-app",
+    "type": "module",
+    "version": "1.0.0",
+    "main": "index.js",
+    "scripts": {
+        "start": "lite-server"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "express": "^4.19.2",
+        "lite-server": "^2.6.1",
+        "liteserver": "^0.3.0"
+    },
+    "devDependencies": {
+        "tailwindcss": "^3.4.3"
+    }
+}
