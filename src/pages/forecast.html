@@ -1,13 +1,44 @@
 <div class="text-center forecastContainer">
-    <h1 class="text-center text-xl font-bold mb-8 weather_location">Rio de Janeiro, Brasil</h1>
 
-    <div class="forecast_cards_container flex flex-row justify-center gap-6 mb-8">
+    <!-- Localização -->
+    <div class="skeleton h-4 sm:h-5
+                w-1/2 max-[380px]:w-2/3
+                rounded-lg mx-auto
+                mb-4 sm:mb-8"></div>
+    <h1 class="text-center text-base sm:text-xl font-bold mb-4 sm:mb-8 weather_location hidden"></h1>
+
+    <!-- Cards de previsão -->
+    <div
+        class="forecast_cards_skeleton flex flex-row flex-nowrap justify-start sm:justify-center overflow-x-auto gap-2 sm:gap-4 mb-8 sm:mb-12 pb-2 sm:pb-0">
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
+        <div
+            class="skeleton flex-shrink-0 rounded-2xl w-16 h-64 max-[380px]:w-14 max-[380px]:h-52 sm:w-[5rem] sm:h-[22rem]">
+        </div>
     </div>
-</div>
+
+    <!-- Cards reais (preenchidos pelo JS) -->
+    <div
+        class="forecast_cards_container flex flex-row flex-nowrap justify-start sm:justify-center overflow-x-auto gap-2 sm:gap-4 mb-8 sm:mb-12 pb-2 sm:pb-0 hidden">
+    </div>
 
 </div>
+
 <footer class="w-full text-center">
-    <a class="bg-slate-800 text-white rounded-full px-6 py-1.5 align-middle cursor-pointer hover:bg-slate-700 duration-300 weather_extended text-nowrap"
+    <a class="bg-slate-800 text-white rounded-full px-4 sm:px-6 py-1.5 align-middle cursor-pointer hover:bg-slate-700 duration-300 weather_extended text-nowrap text-sm sm:text-base"
         href="/" onclick="route()">
         Ver detalhes do clima de hoje
     </a>

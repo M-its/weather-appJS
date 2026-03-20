@@ -1,54 +1,95 @@
 <div class="text-center currentWeatherContainer">
-    <h1 class="text-center text-xl font-bold mb-8 weather_location">Rio de Janeiro, Brasil</h1>
 
+    <!-- Location -->
+    <div class="skeleton h-7 max-[380px]:h-4 sm:h-5
+                w-1/2 max-[380px]:w-2/3
+                rounded-lg mx-auto
+                mb-5 max-[380px]:mb-2 sm:mb-6"></div>
+    <h1
+        class="text-2xl max-[380px]:text-base sm:text-xl font-bold mb-5 max-[380px]:mb-2 sm:mb-6 weather_location hidden">
+    </h1>
+
+    <!-- Icon -->
     <div class="weather_icon">
-        <img class="w-24 block mx-auto mb-4" src="https://openweathermap.org/img/wn/04d@4x.png" alt="clouds">
+        <div class="skeleton rounded-full mx-auto
+                    w-24 h-24 max-[380px]:w-14 max-[380px]:h-14 sm:w-24 sm:h-24
+                    mb-2 max-[380px]:mb-1 sm:mb-3"></div>
     </div>
 
-    <p class="text-5xl mr-0 weather_temperature">23 <span class="ml-[-16px] text-lg align-top">&#176C</span>
+    <!-- Temperature -->
+    <div class="skeleton h-[4.5rem] max-[380px]:h-9 sm:h-[3.75rem]
+                w-1/3 max-[380px]:w-2/5
+                rounded-lg mx-auto mt-2"></div>
+    <p class="text-7xl max-[380px]:text-4xl sm:text-6xl font-bold weather_temperature hidden"></p>
+
+    <!-- Weather -->
+    <div class="skeleton h-5 max-[380px]:h-4
+                w-1/3 max-[380px]:w-2/5
+                rounded-lg mx-auto mt-3 mb-2"></div>
+    <p
+        class="text-lg max-[380px]:text-sm sm:text-lg mt-2 max-[380px]:mt-1 sm:mt-2 text-slate-400 weather_condition capitalize hidden">
     </p>
 
-    <p class="text-lg mt-2 weather_condition capitalize">nublado</p>
-
-    <div class="flex gap-4 justify-center mt-10 mb-4">
-        <p class="weather_min">Min: 21&#176</p>
-        <p class="weather_max">Max: 31&#176</p>
+    <!-- Min / Max -->
+    <div class="flex gap-6 justify-center mt-5 max-[380px]:mt-2 sm:mt-5 mb-6 max-[380px]:mb-3 sm:mb-6">
+        <div class="skeleton h-5 max-[380px]:h-3.5 w-14 max-[380px]:w-10 rounded-lg"></div>
+        <div class="skeleton h-5 max-[380px]:h-3.5 w-14 max-[380px]:w-10 rounded-lg"></div>
+    </div>
+    <div
+        class="flex gap-6 justify-center mt-5 max-[380px]:mt-2 sm:mt-5 mb-6 max-[380px]:mb-3 sm:mb-6 text-lg max-[380px]:text-sm sm:text-base text-slate-300 hidden weather_minmax_row">
+        <p class="weather_min"></p>
+        <p class="weather_max"></p>
     </div>
 
-    <div class="grid grid-rows-4 sm:grid-rows-2 grid-flow-col gap-4 my-12">
-        <div class="flex items-center bg-slate-800 p-4 rounded-lg hover:bg-white/5 duration-300">
-            <i class="fa-solid fa-temperature-full mr-4 text-3xl w-8"></i>
+    <!-- Details card -->
+    <div class="grid grid-cols-2 gap-3 max-[380px]:gap-2 sm:gap-3 mb-6 max-[380px]:mb-3 sm:mb-6 weather_cards_skeleton">
+        <div class="skeleton h-20 max-[380px]:h-12 sm:h-[4.5rem] rounded-xl"></div>
+        <div class="skeleton h-20 max-[380px]:h-12 sm:h-[4.5rem] rounded-xl"></div>
+        <div class="skeleton h-20 max-[380px]:h-12 sm:h-[4.5rem] rounded-xl"></div>
+        <div class="skeleton h-20 max-[380px]:h-12 sm:h-[4.5rem] rounded-xl"></div>
+    </div>
+
+    <div
+        class="grid grid-cols-2 gap-3 max-[380px]:gap-2 sm:gap-3 mb-6 max-[380px]:mb-3 sm:mb-6 hidden weather_cards_real">
+        <div class="flex items-center bg-slate-800 p-5 max-[380px]:p-2 sm:p-4 rounded-xl hover:bg-white/5 duration-300">
+            <i
+                class="fa-solid fa-temperature-full mr-5 max-[380px]:mr-2 sm:mr-3 text-2xl max-[380px]:text-base sm:text-2xl w-9 max-[380px]:w-5 sm:w-8 text-slate-400"></i>
             <div class="text-left">
-                <p class="w-[110px]">Sensação termíca</p>
-                <p class="weather_real_feel">18&#176</p>
+                <p class="text-sm max-[380px]:text-[10px] sm:text-xs text-slate-400">Sensação térmica</p>
+                <p class="weather_real_feel text-lg max-[380px]:text-xs sm:text-base font-medium"></p>
             </div>
         </div>
-        <div class="flex items-center bg-slate-800 p-4 rounded-lg hover:bg-white/5 duration-300">
-            <i class=" fa-solid fa-droplet mr-4 text-3xl w-8"></i>
+        <div class="flex items-center bg-slate-800 p-5 max-[380px]:p-2 sm:p-4 rounded-xl hover:bg-white/5 duration-300">
+            <i
+                class="fa-solid fa-droplet mr-5 max-[380px]:mr-2 sm:mr-3 text-2xl max-[380px]:text-base sm:text-2xl w-9 max-[380px]:w-5 sm:w-8 text-slate-400"></i>
             <div class="text-left">
-                <p class="w-[110px]">Humidade</p>
-                <p class="weather_humidity">86%</p>
+                <p class="text-sm max-[380px]:text-[10px] sm:text-xs text-slate-400">Humidade</p>
+                <p class="weather_humidity text-lg max-[380px]:text-xs sm:text-base font-medium"></p>
             </div>
         </div>
-        <div class="flex items-center bg-slate-800 p-4 rounded-lg hover:bg-white/5 duration-300">
-            <i class="fa-solid fa-wind mr-4 text-3xl w-8"></i>
+        <div class="flex items-center bg-slate-800 p-5 max-[380px]:p-2 sm:p-4 rounded-xl hover:bg-white/5 duration-300">
+            <i
+                class="fa-solid fa-wind mr-5 max-[380px]:mr-2 sm:mr-3 text-2xl max-[380px]:text-base sm:text-2xl w-9 max-[380px]:w-5 sm:w-8 text-slate-400"></i>
             <div class="text-left">
-                <p class="w-[110px]">Vento</p>
-                <p class="weather_wind">7.2 m/s</p>
+                <p class="text-sm max-[380px]:text-[10px] sm:text-xs text-slate-400">Vento</p>
+                <p class="weather_wind text-lg max-[380px]:text-xs sm:text-base font-medium"></p>
             </div>
         </div>
-        <div class="flex items-center bg-slate-800 p-4 rounded-lg hover:bg-white/5 duration-300">
-            <i class="fa-solid fa-cloud-showers-heavy mr-4 text-3xl w-8"></i>
+        <div class="flex items-center bg-slate-800 p-5 max-[380px]:p-2 sm:p-4 rounded-xl hover:bg-white/5 duration-300">
+            <i
+                class="fa-solid fa-cloud-showers-heavy mr-5 max-[380px]:mr-2 sm:mr-3 text-2xl max-[380px]:text-base sm:text-2xl w-9 max-[380px]:w-5 sm:w-8 text-slate-400"></i>
             <div class="text-left">
-                <p class="w-[110px]">Chuva na ultima hora</p>
-                <p class="weather_rain_chance">37%</p>
+                <p class="text-sm max-[380px]:text-[10px] sm:text-xs text-slate-400">Chuva / hora</p>
+                <p class="weather_rain_chance text-lg max-[380px]:text-xs sm:text-base font-medium"></p>
             </div>
         </div>
     </div>
 </div>
-<footer class="w-full text-center mt-4">
-    <a class="bg-slate-800 text-white rounded-full px-6 py-1.5 align-middle cursor-pointer hover:bg-slate-700 duration-300 weather_extended text-nowrap"
-        href="/forecast" onclick="route()">
-        Proxímos dias
+
+<footer class="w-full text-center pt-2 pb-1">
+    <a class="inline-block bg-slate-800 text-white rounded-full px-9 max-[380px]:px-5 py-3 max-[380px]:py-2
+              cursor-pointer hover:bg-slate-700 duration-300 weather_extended
+              text-lg max-[380px]:text-sm sm:text-base font-medium" href="/forecast" onclick="route()">
+        Próximos dias
     </a>
 </footer>

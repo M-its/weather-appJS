@@ -1,47 +1,57 @@
-const form = document.querySelector("form")
-const inputForecast = form.querySelector(".weather_search")
-const celcius = document.querySelector(".weather_celcius")
-const farenheit = document.querySelector(".weather_farenheit")
-const apiKey = "b98399f93fecb72c3fd3e2d0ac79b3f0"
-const apiUrl = "http://api.openweathermap.org/data/2.5/forecast"
-const lang = "pt_br"
-
 export class forecastUtility {
     constructor() {
         this.location = "Rio de Janeiro"
         this.unit = "metric"
         this.unitChanged = false
+        this.form = document.querySelector("form")
+        this.inputForecast = this.form.querySelector(".weather_search")
+        this.celcius = document.querySelector(".weather_celcius")
+        this.farenheit = document.querySelector(".weather_farenheit")
+        this.controller = new AbortController()
         this.initEventListeners()
     }
 
+    destroy() {
+        this.controller.abort()
+    }
+
     async fetchForecastData() {
-        let currentLocation = this.location
+        const currentLocation = this.location
         const currentUnit = this.unit
-        const apiForecastUrl = `${apiUrl}?q=${currentLocation}&appid=${apiKey}&lang=${lang}&units=${currentUnit}`
+        const url = `/api/forecast?q=${encodeURIComponent(currentLocation)}&units=${currentUnit}&lang=pt_br`
 
         try {
-            const response = await fetch(apiForecastUrl)
+            const response = await fetch(url)
             const forecastData = await response.json()
+
+            if (!response.ok) {
+                console.error("Erro retornado pelo servidor:", forecastData.error)
+                return null
+            }
+
             return forecastData
         } catch (error) {
-            console.error("Erro ao buscar dados do clima:", error)
+            console.error("Erro ao buscar previsão do tempo:", error)
+            return null
         }
     }
 
     initEventListeners() {
-        form.addEventListener("submit", async (e) => {
+        this.form.addEventListener("submit", async (e) => {
             e.preventDefault()
-            this.location = inputForecast.value
+            this.location = this.inputForecast.value
+            this.showSkeletons()
             const forecastData = await this.fetchForecastData()
             this.displayForecastCard(forecastData)
-            inputForecast.value = ""
-        })
+            this.inputForecast.value = ""
+        }, { signal: this.controller.signal })
 
         this.changeUnits()
     }
 
     changeUnits() {
-        const buttons = [celcius, farenheit]
+        const buttons = [this.celcius, this.farenheit]
+
         buttons.forEach((button) => {
             button.addEventListener("click", async () => {
                 if (!this.unitChanged) {
@@ -53,15 +63,23 @@ export class forecastUtility {
                     button.classList.add("bg-slate-700")
                     button.classList.remove("bg-slate-800")
 
-                    this.unit = button === celcius ? "metric" : "imperial"
+                    this.unit = button === this.celcius ? "metric" : "imperial"
                     this.unitChanged = true
 
+                    this.showSkeletons()
                     const forecastData = await this.fetchForecastData()
                     this.displayForecastCard(forecastData)
                     this.unitChanged = false
                 }
-            })
+            }, { signal: this.controller.signal })
         })
+    }
+
+    showSkeletons() {
+        document.querySelector(".forecast_cards_skeleton")?.classList.remove("hidden")
+        document.querySelector(".forecast_cards_container")?.classList.add("hidden")
+        document.querySelector(".weather_location")?.classList.add("hidden")
+        document.querySelectorAll(".skeleton").forEach(el => el.classList.remove("hidden"))
     }
 
     convertCountryCode(country) {
@@ -71,16 +89,10 @@ export class forecastUtility {
 
     displayForecastCard(forecastData) {
         if (forecastData) {
-            console.log("Clima dos proximos dias: ", forecastData)
+            const forecastCardsContainer = document.querySelector(".forecast_cards_container")
+            const location = document.querySelector(".weather_location")
 
-            const forecastCardsContainer = document.querySelector(
-                ".forecast_cards_container"
-            )
-            let location = document.querySelector(".weather_location")
-
-            location.innerText = `${
-                forecastData.city.name
-            }, ${this.convertCountryCode(forecastData.city.country)}`
+            location.innerText = `${forecastData.city.name}, ${this.convertCountryCode(forecastData.city.country)}`
 
             function extrairData(dt_txt) {
                 return dt_txt.split(" ")[0]
@@ -106,14 +118,8 @@ export class forecastUtility {
                         minIcon: item.weather[0].icon,
                     }
                 } else {
-                    dailyTemperatures[data].max = Math.max(
-                        dailyTemperatures[data].max,
-                        item.main.temp_max
-                    )
-                    dailyTemperatures[data].min = Math.min(
-                        dailyTemperatures[data].min,
-                        item.main.temp_min
-                    )
+                    dailyTemperatures[data].max = Math.max(dailyTemperatures[data].max, item.main.temp_max)
+                    dailyTemperatures[data].min = Math.min(dailyTemperatures[data].min, item.main.temp_min)
 
                     if (dailyTemperatures[data].max === item.main.temp_max) {
                         dailyTemperatures[data].maxIcon = item.weather[0].icon
@@ -151,30 +157,27 @@ export class forecastUtility {
                         <p class="text-lg"></p>
                         <p class="text-xs">${dateText}</p>
                     </div>
-
                     <div class="weather_icon_max mt-2 mb-8 px-6">
-                        <img class="w-12 block mx-auto mb-4" src="https://openweathermap.org/img/wn/${
-                            dailyTemperatures[data].maxIcon
-                        }@4x.png" alt="clouds">
+                        <img class="w-12 block mx-auto mb-4" src="https://openweathermap.org/img/wn/${dailyTemperatures[data].maxIcon}@4x.png" alt="clouds">
                     </div>
-
                     <p class="text-sm weather_temperature_max mb-32 px-6">
                         ${dailyTemperatures[data].max.toFixed()}°
                     </p>
-
                     <p class="text-sm weather_temperature_min px-6">
                         ${dailyTemperatures[data].min.toFixed()}°
                     </p>
-
                     <div class="weather_icon_min mt-8 px-6 mb-2">
-                        <img class="w-12 block mx-auto mt-4" src="https://openweathermap.org/img/wn/${
-                            dailyTemperatures[data].minIcon
-                        }@4x.png" alt="clouds">
+                        <img class="w-12 block mx-auto mt-4" src="https://openweathermap.org/img/wn/${dailyTemperatures[data].minIcon}@4x.png" alt="clouds">
                     </div>
                 `
 
                 forecastCardsContainer.appendChild(card)
             }
+
+            document.querySelectorAll(".skeleton").forEach(el => el.classList.add("hidden"))
+            document.querySelector(".forecast_cards_skeleton")?.classList.add("hidden")
+            forecastCardsContainer.classList.remove("hidden")
+            location.classList.remove("hidden")
         }
     }
 }

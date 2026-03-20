@@ -3,108 +3,128 @@
   <img src="https://img.shields.io/badge/JAVASCRIPT-black?style=for-the-badge&logo=JavaScript&logoColor=F7DF1E"/>
   <img src="https://img.shields.io/badge/CSS3-black?style=for-the-badge&logo=CSS3&logoColor=1572B6"/>
   <img src="https://img.shields.io/badge/tailwind-black?style=for-the-badge&logo=tailwindcss&logoColor=61DAFB"/>
+  <img src="https://img.shields.io/badge/Vercel-black?style=for-the-badge&logo=vercel&logoColor=white"/>
 </p>
-
 
 # Weather App
 
-A modern, client-side weather application built with vanilla JavaScript that displays current weather conditions and forecasts using the OpenWeatherMap API.
+A modern weather application built with vanilla JavaScript that displays current weather conditions and forecasts using the OpenWeatherMap API proxied through Vercel serverless functions.
 
 <img src="./weather.png" alt="Current Weather"/>
 
 ## Features
 
-- **Current Weather**: View real-time weather conditions with detailed information
-- **Weather Forecast**: Check upcoming weather predictions for multiple days
-- **Temperature Units**: Switch between Celsius and Fahrenheit
-- **Location Search**: Search weather for any city worldwide
-- **Weather Icons**: Visual weather condition indicators
-- **Single Page Application**: Smooth navigation with custom client-side routing
-- **Responsive Design**: Works on desktop and mobile devices
-- **404 Error Handling**: Graceful handling of invalid routes
+- **Current Weather** — real-time conditions with temperature, humidity, wind, and rain
+- **5-Day Forecast** — upcoming weather with daily min/max temperatures
+- **Temperature Units** — switch between Celsius and Fahrenheit
+- **City Search** — search weather for any city worldwide
+- **Skeleton Loading** — smooth loading states while fetching data
+- **Single Page Application** — client-side routing with no page reloads
+- **Secure API** — API key is kept server-side via Vercel serverless functions
+- **Responsive Design** — works on desktop and mobile
 
 <img src="./forecast.png" alt="Forecast"/>
 
-
 ## Project Structure
 
-```markdown:README.md
+```
 weather-app/
+├── api/
+│   ├── weather.js              # Serverless function — current weather proxy
+│   └── forecast.js             # Serverless function — forecast proxy
 ├── src/
 │   ├── js/
-│   │   ├── index.js                 # Main application entry point
-│   │   ├── router.js                # Custom routing system
-│   │   ├── weatherAPIHandler.js     # Current weather API logic
-│   │   └── forecastAPIHandler.js    # Forecast API logic
+│   │   ├── index.js            # App entry point, registers routes
+│   │   ├── router.js           # Client-side SPA router
+│   │   ├── weatherAPIHandler.js
+│   │   └── forecastAPIHandler.js
 │   ├── pages/
-│   │   ├── current-weather.html     # Current weather page
-│   │   ├── forecast.html            # Weather forecast page
-│   │   └── 404.html                 # Error page
-│   └── assets/
-│       └── weather-forecast.png     # Local weather icon
-├── configs.example.js               # Configuration template
-├── index.html                       # Main HTML file
-├── .gitignore                       # Git ignore file
-└── README.md 
+│   │   ├── current-weather.html
+│   │   ├── forecast.html
+│   │   └── 404.html
+│   ├── assets/
+│   │   └── weather-forecast.png
+│   ├── input.css
+│   └── output.css
+├── .env.local.example          # Environment variable template
+├── .gitignore
+├── index.html
+├── package.json
+├── tailwind.config.js
+├── vercel.json
+└── README.md
 ```
 
-## Getting Started
+## Getting Started (local development)
 
 ### Prerequisites
 
-- A modern **web browser**
-- **Node.js** (for local server)
-- **Local Web Server** (required for ES6 modules and CORS)
-- **OpenWeatherMap API Key** (free registration at [openweathermap.org](https://openweathermap.org/api))
+- [Node.js](https://nodejs.org/) v18 or higher
+- [Vercel CLI](https://vercel.com/docs/cli) — required to run serverless functions locally
+- An [OpenWeatherMap API key](https://openweathermap.org/api) (free tier is enough)
 
-### Installation
+### 1. Clone the repository
 
-1. Clone the repository:
 ```bash
 git clone https://github.com/M-its/weather-appJS
-cd weather-app
+cd weather-appJS
 ```
 
-2. Start a local web server. You can use any of these options:
+### 2. Install dependencies
 
-**Install dependencies:**
 ```bash
 npm install
+npm install -g vercel
 ```
 
-**Using Node.js (http-server):**
-```bash
-npm start
-```
+### 3. Configure environment variables
 
-3. Open your browser and navigate to `http://localhost:3000`
-
-### Configure API Settings
-
-**Step 1:** Copy the example configuration file:
+Copy the example file and fill in your API key:
 
 ```bash
-cp configs.example.js configs.js
+cp .env.local.example .env.local
 ```
 
-**Step 2:** Edit `configs.js` with your API credentials:
+Open `.env.local` and replace the placeholder:
 
-```javascript
-export const config = {
-    OPENWEATHER_API_KEY: "your_actual_api_key_here",
-    OPENWEATHER_API_URL: "https://api.openweathermap.org/data/2.5/weather",
-    OPENWEATHER_FORECAST_URL: "http://api.openweathermap.org/data/2.5/forecast",
-    OPENWEATHER_LANG: "pt_br", // Change to your preferred language
-}
+```
+OPENWEATHER_API_KEY=your_actual_api_key_here
 ```
 
-**Step 3:** Get your OpenWeatherMap API key:
-1. Visit [OpenWeatherMap API](https://openweathermap.org/api)
-2. Sign up for a free account
-3. Generate an API key
-4. Replace `"your_api_key"` in `configs.js` with your actual key
+> ⚠️ `.env.local` is listed in `.gitignore` — never commit it.
 
-## Usage
+### 4. Link the project to Vercel (first time only)
+
+```bash
+vercel link
+```
+
+Follow the prompts. When asked "Would you like to pull environment variables now?", answer **No** — you already have `.env.local`.
+
+### 5. Start the development server
+
+```bash
+vercel dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+> `vercel dev` is required instead of `npm start` because it emulates the serverless functions in `api/`. Without it, the `/api/weather` and `/api/forecast` routes won't work.
+
+---
+
+## How the API proxy works
+
+The browser never touches the OpenWeatherMap API directly. Every request goes through a Vercel serverless function:
+
+```
+Browser → /api/weather?q=city   →   api/weather.js (reads OPENWEATHER_API_KEY)   →   OpenWeatherMap
+Browser → /api/forecast?q=city  →   api/forecast.js (reads OPENWEATHER_API_KEY)  →   OpenWeatherMap
+```
+
+The API key only exists in the server environment — it is never sent to the client.
+
+---
 
 ### API Endpoints
 
@@ -112,13 +132,13 @@ The app uses two OpenWeatherMap endpoints:
 - **Current Weather**: `https://api.openweathermap.org/data/2.5/weather`
 - **5-Day Forecast**: `http://api.openweathermap.org/data/2.5/forecast`
 
-### Navigation
+## Navigation
 
-The app uses a custom client-side router with the following routes:
+- `/` — current weather page
+- `/forecast` — 5-day forecast page
+- anything else — 404 page
 
-- `/` - Current weather page
-- `/forecast` - Weather forecast page
-- Any invalid route will show the 404 error page
+---
 
 ### Routing System
 
@@ -145,23 +165,16 @@ The custom router supports:
 - `router.handle()` - Process current URL
 - `router.route()` - Navigate programmatically
 
-## Technologies Used
+---
 
-- **Vanilla JavaScript** - Core functionality
-- **ES6 Modules** - Modern module system
-- **HTML5** - Semantic markup
-- **CSS3** - Styling (assumed)
-- **Custom Router** - Client-side navigation
+## Technologies
 
-## Browser Support
-
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
-
-*Note: ES6 modules require modern browser support*
+- Vanilla JavaScript (ES6 modules)
+- HTML5 / CSS3
+- TailwindCSS
+- Vercel Serverless Functions
+- OpenWeatherMap API
 
 ## License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+MIT
